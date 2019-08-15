@@ -17,7 +17,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('combined', { stream: winston.stream }));
 
-
+app.get('/', (req, res, next) => {
+  res.send('Discounter Server');
+});
 
 app.use((err, req, res, next) => {
   winston.error(`${err.status || 500} - ${req.method} - ${err.message} - ${req.originalUrl} - ${req.ip}`);
@@ -25,3 +27,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(port, () => console.log('Discounter server running on port', port));
+
+module.exports = app;

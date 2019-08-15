@@ -4,7 +4,7 @@
   "description": "Group discount manager server",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha --exit"
   },
   "repository": {
     "type": "git",
@@ -20,12 +20,15 @@
   },
   "homepage": "https://github.com/johnotu/discounter-server#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^6.1.0",
     "eslint-config-standard": "^13.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^6.2.0",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "app-root-path": "^2.2.1",
