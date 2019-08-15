@@ -18,5 +18,10 @@
         "ignoreReadBeforeAssign": false
       }
     ]
+  },
+  "env": {
+    "commonjs": true,
+    "node": true,
+    "mocha": true
   }
 }
