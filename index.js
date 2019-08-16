@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const winston = require('./winston');
 const mongoose = require('mongoose');
 
+const accountRoute = require('./routes/account/account');
+
 require('dotenv').config();
 
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true })
@@ -24,6 +26,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('combined', { stream: winston.stream }));
 
+app.use('/account', accountRoute);
+
 app.get('/', (req, res, next) => {
   res.send('Discounter Server');
 });
@@ -31,7 +35,7 @@ app.get('/', (req, res, next) => {
 app.use((err, req, res, next) => {
   winston.error(`${err.status || 500} - ${req.method} - ${err.message} - ${req.originalUrl} - ${req.ip}`);
   res.status(err.status || 500).json({ msg: 'An error has occured' });
-})
+});
 
 app.listen(port, () => console.log('Discounter server running on port', port));
 
