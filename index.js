@@ -6,8 +6,15 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const winston = require('./winston');
+const mongoose = require('mongoose');
 
 require('dotenv').config();
+
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true })
+  .then(m => {
+    console.log('Successful connection to DB');
+    m.connection.on('error', err => console.log('Error connecting to DB', err));
+  }, err => console.log('Error connecting to DB', err));
 
 const app = express();
 const port = 3300 || process.env.PORT;
