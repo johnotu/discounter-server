@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -8,9 +10,9 @@ const morgan = require('morgan');
 const winston = require('./winston');
 const mongoose = require('mongoose');
 
-const accountRoute = require('./routes/account/account');
-
-require('dotenv').config();
+const accountRoutes = require('./routes/account/account');
+const groupRoutes = require('./routes/group/group');
+const loginRoute = require('./routes/account/login');
 
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true })
   .then(m => {
@@ -26,7 +28,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('combined', { stream: winston.stream }));
 
-app.use('/account', accountRoute);
+app.use('/login', loginRoute);
+app.use('/account', accountRoutes);
+app.use('/group', groupRoutes);
 
 app.get('/', (req, res, next) => {
   res.send('Discounter Server');

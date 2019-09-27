@@ -3,13 +3,16 @@
 const mongoose = require('mongoose');
 
 const accountSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  adminFirstName: { type: String, required: true },
-  adminLastName: { type: String, required: true },
-  adminEmail: { type: String, required: true },
-  adminPassword: { type: String, required: true },
-  createdAt: { type: Date },
-  lastUpdateAt: { type: Date }
+  organisationName: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  salt: { type: String },
+  token: { type: String },
+  tokenExpiry: { type: Date },
+  created: { type: Date },
+  lastUpdated: { type: Date }
 });
 
 const Account = mongoose.model('Account', accountSchema);
