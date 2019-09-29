@@ -2,6 +2,7 @@
 
 const crypto = require('crypto');
 const Account = require('../../models/account');
+const encryptId = require('../../auth').encryptId;
 
 const createAccount = (req, res, next) => {
   // Ensure required params are present
@@ -23,18 +24,17 @@ const createAccount = (req, res, next) => {
       const salt = buf.toString('hex');
       crypto.pbkdf2(password, salt, 1000, 64, 'sha512', (err, derivedKey) => {
         if (err) return next(err);
-        const hash = derivedKey.toString('hex');
+        req.body.password = derivedKey.toString('hex');
+        req.body.salt = salt;
 
         // Create new account
-        crypto.randomBytes(20, (err, buf) => {
+        req.body.created = Date.now();
+        new Account(req.body).save((err, account) => {
           if (err) return next(err);
-          req.body.token = buf.toString('hex');
-          req.body.tokenExpiry = Date.now() + 720000000;
-          req.body.created = Date.now();
-          req.body.salt = salt;
-          req.body.password = hash;
 
-          new Account(req.body).save((err, account) => {
+          // create token and update account
+          const token = encryptId(account._id);
+          Account.findByIdAndUpdate(account._id, { token, lastUpdated: Date.now() }, { new: true }, (err, account) => {
             if (err) return next(err);
             const msg = 'Successfully created new account';
             res.status(201).json({ msg, account });

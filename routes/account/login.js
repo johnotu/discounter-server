@@ -1,8 +1,8 @@
 'use strict';
 
 const crypto = require('crypto');
-
 const Account = require('../../models/account');
+const encryptId = require('../../auth').encryptId;
 
 const login = (req, res, next) => {
   // Ensure required params are present
@@ -32,20 +32,13 @@ const login = (req, res, next) => {
 
       if (account.password !== givenHash) return res.status(403).json({ msg: 'Wrong password' });
 
-      // Genenrate new token and expiry
-      crypto.randomBytes(20, (err, buf) => {
+      // Genenrate new token
+      const token = encryptId(account._id);
+      Account.findByIdAndUpdate(account._id, { token, lastUpdated: Date.now() }, (err, account) => {
         if (err) return next(err);
-        const update = {
-          token: buf.toString('hex'),
-          tokenExpiry: Date.now() + 720000000,
-          lastUpdated: Date.now()
-        };
-
-        Account.findByIdAndUpdate(account._id, update, (err, account) => {
-          if (err) return next(err);
-          res.status(200).json({ msg: 'Successfully verified user', account });
-        });
+        res.status(200).json({ msg: 'Successfully verified user', account });
       });
+      // });
     });
   });
 };
