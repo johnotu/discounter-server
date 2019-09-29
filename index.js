@@ -38,6 +38,7 @@ app.get('/', (req, res, next) => {
 
 app.use((err, req, res, next) => {
   winston.error(`${err.status || 500} - ${req.method} - ${err.message} - ${req.originalUrl} - ${req.ip}`);
+  console.log('Server error', err);
   res.status(err.status || 500).json({ msg: 'An error has occured' });
 });
 
