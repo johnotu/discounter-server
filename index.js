@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 const accountRoutes = require('./routes/account/account');
 const groupRoutes = require('./routes/group/group');
 const loginRoute = require('./routes/account/login');
+const memberRoutes = require('./routes/member/member');
 
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true })
   .then(m => {
@@ -31,6 +32,7 @@ app.use(morgan('combined', { stream: winston.stream }));
 app.use('/login', loginRoute);
 app.use('/account', accountRoutes);
 app.use('/group', groupRoutes);
+app.use('/member', memberRoutes);
 
 app.get('/', (req, res, next) => {
   res.send('Discounter Server');

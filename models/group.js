@@ -12,6 +12,7 @@ const groupSchema = new mongoose.Schema({
   signupUrl: { type: String },
   isActive: { type: Boolean },
   image: { type: String },
+  token: { type: String },
   account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
   created: { type: Date },
   lastUpdated: { type: Date }

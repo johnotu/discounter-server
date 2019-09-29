@@ -57,4 +57,20 @@ const decryptToken = token => {
   return Buffer.concat([decryptedId, decipher.final()]).toString();
 };
 
-module.exports = { superAdmin, account, encryptId, decryptToken, accountOwner };
+const encryptGroup = id => {
+  const initVector = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(process.env.GROUP_ENCRYPTION_KEY), initVector);
+  const encryptedId = cipher.update(id);
+  return `${initVector.toString('hex')}-${Buffer.concat([encryptedId, cipher.final()]).toString('hex')}`;
+};
+
+const decryptGroup = token => {
+  const splitToken = token.split('-');
+  const initVector = Buffer.from(splitToken.shift(), 'hex');
+  const encryptedId = Buffer.from(splitToken.join('-'), 'hex');
+  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(process.env.GROUP_ENCRYPTION_KEY), initVector);
+  const decryptedId = decipher.update(encryptedId);
+  return Buffer.concat([decryptedId, decipher.final()]).toString();
+};
+
+module.exports = { superAdmin, account, encryptId, decryptToken, accountOwner, encryptGroup, decryptGroup };

@@ -1,6 +1,7 @@
 'use strict';
 
 const Group = require('../../models/group');
+const encryptGroup = require('../../auth').encryptGroup;
 
 const createGroup = (req, res, next) => {
   // Ensure required params are present
@@ -13,8 +14,9 @@ const createGroup = (req, res, next) => {
   new Group(req.body).save((err, group) => {
     if (err) return next(err);
 
-    // Update group singupUrl
-    Group.findByIdAndUpdate(group._id, { signupUrl: `${process.env.FRONTEND_URL}/group-signup/${group._id}`, lastUpdated: Date.now() }, { new: true }, (err, group) => {
+    // Update group singupUrl and token
+    const token = encryptGroup(String(group._id));
+    Group.findByIdAndUpdate(group._id, { signupUrl: `${process.env.FRONTEND_URL}/group-signup/${group._id}?token=${token}`, token, lastUpdated: Date.now() }, { new: true }, (err, group) => {
       if (err) return next(err);
 
       const msg = 'Successfully created new group';
