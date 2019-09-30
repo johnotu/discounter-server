@@ -10,7 +10,7 @@ const groupSchema = new mongoose.Schema({
   discountPercentage: { type: Number, required: true },
   totalMembers: { type: Number, required: true },
   signupUrl: { type: String },
-  isActive: { type: Boolean },
+  status: { type: String, enum: ['Not started', 'Active', 'Expired'], default: 'Not started' },
   image: { type: String },
   token: { type: String },
   account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },

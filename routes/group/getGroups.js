@@ -4,7 +4,7 @@ const Group = require('../../models/group');
 
 const getGroups = (req, res, next) => {
   // Obtain all groups
-  Group.find({ account: req.get('account') }, (err, groups) => {
+  Group.find({ account: String(req.get('account')) }, (err, groups) => {
     if (err) return next(err);
 
     // Check if there are no groups

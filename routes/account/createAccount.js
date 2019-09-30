@@ -15,7 +15,6 @@ const createAccount = (req, res, next) => {
   // Confirm that email does not already exist
   Account.find({ email: email }, (err, account) => {
     if (err) return next(err);
-    console.log('existing account', account);
     if (account.length > 0) return res.status(400).json({ msg: 'Account already exists. Please login or signup with another email' });
 
     // Hash password
