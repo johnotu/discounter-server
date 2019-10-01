@@ -22,7 +22,7 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true })
   }, err => console.log('Error connecting to DB', err));
 
 const app = express();
-const port = 3300 || process.env.PORT;
+const port = process.env.PORT || 3300;
 
 app.use(helmet());
 app.use(cors());
