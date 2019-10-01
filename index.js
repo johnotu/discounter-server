@@ -35,7 +35,7 @@ app.use('/group', groupRoutes);
 app.use('/member', memberRoutes);
 
 app.get('/', (req, res, next) => {
-  res.send('Discounter Server');
+  res.send('Discounter');
 });
 
 app.use((err, req, res, next) => {
