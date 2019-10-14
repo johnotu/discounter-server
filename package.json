@@ -2,7 +2,7 @@
   "name": "discounter-server",
   "version": "0.0.0",
   "description": "Group discount manager server",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "mocha --exit",
     "dev": "nodemon index.js",
@@ -33,14 +33,11 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "app-root-path": "^2.2.1",
+    "@google-cloud/firestore": "^2.4.0",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
-    "helmet": "^3.20.0",
-    "mongoose": "^5.6.9",
-    "morgan": "^1.9.1",
-    "winston": "^3.2.1"
+    "uuid": "^3.3.3"
   }
 }
